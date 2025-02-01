@@ -13,12 +13,19 @@
             overflow: hidden;
             color: white;
             padding: 20px;
+            position: relative;
         }
         h1 {
             margin-top: 50px;
             color: #fff;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             font-size: 2rem;
+            animation: floatText 2s ease-in-out infinite;
+        }
+        @keyframes floatText {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
         }
         .buttons {
             margin-top: 20px;
@@ -33,9 +40,14 @@
             border: none;
             border-radius: 15px;
             cursor: pointer;
-            transition: transform 0.2s, background 0.3s;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
             width: 80%;
             max-width: 300px;
+        }
+        button:hover {
+            transform: translateY(-5px);
+            background-color: #ff3377;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
         }
         #yes {
             background-color: #ff4d6d;
@@ -44,9 +56,6 @@
         #no {
             background-color: #ffcccb;
             color: black;
-        }
-        button:hover {
-            transform: scale(1.1);
         }
         #message {
             margin-top: 20px;
@@ -70,6 +79,36 @@
             0% {transform: translateY(0px) scale(1); opacity: 1;}
             50% {transform: translateY(-100px) scale(1.2); opacity: 0.7;}
             100% {transform: translateY(-200px) scale(0.8); opacity: 0;}
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            animation: confettiAnimation 3s ease-in-out infinite;
+        }
+
+        @keyframes confettiAnimation {
+            0% { opacity: 1; transform: translateY(0px) rotate(0deg); }
+            50% { opacity: 0.5; transform: translateY(100px) rotate(180deg); }
+            100% { opacity: 0; transform: translateY(200px) rotate(360deg); }
         }
 
         @media (min-width: 600px) {
@@ -115,20 +154,27 @@
             "I may not be perfect, but I promise to love you perfectly! ❤️",
         ];
 
+        // Confetti sound
+        let clickSound = new Audio('path_to_sound.mp3');
+
         document.getElementById("yes").onclick = function() {
+            clickSound.play();
             document.body.innerHTML = `<h1>Yay! Best Valentine’s Day Ever! ❤️💖</h1>
                                        <p style='font-size: 24px; color: #fff; margin-top: 20px;'>
                                        Come live with me and be my love,<br>
                                        Where roses bloom the whole year long,<br>
                                        Where every whisper is a song,<br>
                                        And love is endless, pure, and strong 💖</p>`;
+            setInterval(createConfetti, 100);
         };
 
         document.getElementById("no").onclick = function() {
+            clickSound.play();
             let randomReason = reasons[Math.floor(Math.random() * reasons.length)];
             let messageEl = document.getElementById("message");
             messageEl.innerText = randomReason;
             messageEl.classList.add("show-message");
+            triggerParticles(event.clientX, event.clientY);
         };
 
         function createHeart() {
@@ -139,6 +185,26 @@
             heart.style.top = window.innerHeight + "px";
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 3000);
+        }
+
+        function createConfetti() {
+            let confetti = document.createElement("div");
+            confetti.classList.add("confetti");
+            confetti.style.left = Math.random() * window.innerWidth + "px";
+            confetti.style.top = "0px";
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 3000);
+        }
+
+        function triggerParticles(x, y) {
+            for (let i = 0; i < 30; i++) {
+                let particle = document.createElement('div');
+                particle.classList.add('heart');
+                particle.style.left = `${x + (Math.random() - 0.5) * 100}px`;
+                particle.style.top = `${y + (Math.random() - 0.5) * 100}px`;
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 2000);
+            }
         }
 
         setInterval(createHeart, 500);
