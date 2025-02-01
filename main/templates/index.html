@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            overflow: hidden;
+            color: white;
+            padding: 20px;
+        }
+        h1 {
+            margin-top: 50px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 2rem;
+        }
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        button {
+            font-size: 18px;
+            padding: 12px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+            width: 80%;
+            max-width: 300px;
+        }
+        #yes {
+            background-color: #ff4d6d;
+            color: white;
+        }
+        #no {
+            background-color: #ffcccb;
+            color: black;
+        }
+        button:hover {
+            transform: scale(1.1);
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #fff;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+        .show-message {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+        }
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: red;
+            animation: float 3s infinite;
+        }
+        @keyframes float {
+            0% {transform: translateY(0px) scale(1); opacity: 1;}
+            50% {transform: translateY(-100px) scale(1.2); opacity: 0.7;}
+            100% {transform: translateY(-200px) scale(0.8); opacity: 0;}
+        }
+
+        @media (min-width: 600px) {
+            .buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+            button {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Khushboo, will you be my Valentine? ❤️</h1>
+    <div class="buttons">
+        <button id="yes">Yes</button>
+        <button id="no">No</button>
+    </div>
+    <p id="message"></p>
+
+    <script>
+        let reasons = [
+            "Are you sure? I promise I'll bring chocolates! 🍫",
+            "But I’ll be the happiest guy if you say Yes! 😊",
+            "Think about all the cute selfies we can take! 📸",
+            "I'll write your name in the sky (or at least on my notebook)! ✨",
+            "One date, and if you don’t like it, I’ll treat you to ice cream forever! 🍦",
+            "Life is short, but our love story could be forever! 💖",
+            "I'll be your personal comedian—unlimited bad jokes guaranteed! 😂",
+            "Who else will remind you how beautiful you are every single day? 😍",
+            "We’d be the cutest couple, and the world deserves to see that! 📸",
+            "I promise to always save you the last slice of pizza! 🍕",
+            "Every song will suddenly make sense when we’re together! 🎶",
+            "Saying yes means unlimited cuddles and laughter! 🤗",
+            "Imagine all the movie nights and late-night deep talks! 🎬🌙",
+            "I already told my mom about you, and she approves! 😉",
+            "Because fate brought us together, and who are we to question destiny? 💘",
+            "I’ll make sure you always have a reason to smile! 😊",
+            "Who else will celebrate your tiniest achievements like they’re world records? 🏆",
+            "I'll be your human diary—your secrets are safe with me! 🤫",
+            "Because every love story needs a perfect beginning… and this is ours! 💕",
+            "I may not be perfect, but I promise to love you perfectly! ❤️",
+        ];
+
+        document.getElementById("yes").onclick = function() {
+            document.body.innerHTML = `<h1>Yay! Best Valentine’s Day Ever! ❤️💖</h1>
+                                       <p style='font-size: 24px; color: #fff; margin-top: 20px;'>
+                                       Come live with me and be my love,<br>
+                                       Where roses bloom the whole year long,<br>
+                                       Where every whisper is a song,<br>
+                                       And love is endless, pure, and strong 💖</p>`;
+        };
+
+        document.getElementById("no").onclick = function() {
+            let randomReason = reasons[Math.floor(Math.random() * reasons.length)];
+            let messageEl = document.getElementById("message");
+            messageEl.innerText = randomReason;
+            messageEl.classList.add("show-message");
+        };
+
+        function createHeart() {
+            let heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * window.innerWidth + "px";
+            heart.style.top = window.innerHeight + "px";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+        }
+
+        setInterval(createHeart, 500);
+    </script>
+</body>
+</html>
